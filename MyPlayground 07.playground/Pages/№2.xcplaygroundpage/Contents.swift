@@ -6,7 +6,7 @@ class Athlete {
     var height: Double
     var uniform: String
     var nationality: String
-    private var _age: Int
+    var age: Int
     
     init(name: String, lastName: String, gender: String, height: Double, uniform: String, nationality: String, age: Int) {
         self.name = name
@@ -15,103 +15,147 @@ class Athlete {
         self.height = height
         self.uniform = uniform
         self.nationality = nationality
-        self._age = age
-    }
-    
-    var age: Int {
-        get {
-            return _age
-        }
-        set {
-            if newValue >= 0 {
-                _age = newValue
-            }
-        }
+        self.age = age
     }
     
     func mobility() {
-        
-    }
-    
-    func run() {
        
     }
     
+    func run() {
+      
+    }
+    
     func jump() {
-        
-    }
-}
-
-class BasketballPlayer: Athlete {
-    override func mobility() {
-        print("\(name) is moving on the basketball court")
-    }
-    
-    override func run() {
-        print("\(name) is running on the basketball court")
-    }
-    
-    override func jump() {
-        print("\(name) is jumping with the ball")
-    }
-}
-
-class FootballPlayer: Athlete {
-    override func mobility() {
-        print("\(name) is moving on the football field")
-    }
-    
-    override func run() {
-        print("\(name) is sprinting on the football field")
-    }
-    
-    override func jump() {
-        print("\(name) is jumping with the ball")
-    }
-}
-
-class TennisPlayer: Athlete {
-    override func mobility() {
-        print("\(name) is moving on the tennis court")
-    }
-    
-    override func run() {
-        print("\(name) is running on the court")
-    }
-    
-    override func jump() {
-        print("\(name) is leaping to hit the ball")
+       
     }
 }
 
 class Equipment {
-    private var name: String
+    var name: String
     
     init(name: String) {
         self.name = name
     }
+}
+
+enum EquipmentType: String {
+    case ball
+    case racket
+    case sword
+    case card
+    case fencing
+    case poker
+    case chess
+}
+
+class Team {
+    var athletes: [Athlete] = []
     
-    func getName() -> String {
-        return name
+    func addAthlete(_ athlete: Athlete) {
+        athletes.append(athlete)
     }
 }
 
-class Game {
-    func startGame(team: [Athlete], with equipment: Equipment) {
-        print("Game started!!!")
+class Sport {
+    var team: Team?
+    var equipment: EquipmentType?
+    
+    init(team: Team?, equipment: EquipmentType?) {
+        self.team = team
+        self.equipment = equipment
+    }
+    
+    func startGame() {
+        if let athletes = team?.athletes, let equipment = equipment {
+            print("Game started with \(athletes.count) athletes using \(equipment.rawValue)")
+        } else {
+            print("Game cannot start ")
+        }
     }
 }
 
-let basketballPlayer = BasketballPlayer(name: "Mixa", lastName: "Jordan", gender: "Male", height: 6.7, uniform: "22", nationality: "USA", age: 30)
+class FencingPlayer: Athlete {
+    override func mobility() {
+        print("\(name) is moving ")
+    }
+    
+    override func run() {
+        print("\(name) is advancing ")
+    }
+    
+    override func jump() {
+      
+    }
+}
 
-let footballPlayer = FootballPlayer(name: "Leon", lastName: "Messi", gender: "Male", height: 5.4, uniform: "10", nationality: "Argentina", age: 34)
+class PokerPlayer: Athlete {
+ 
+    
+    func bluff() {
+        print("\(name) is trying to bluff")
+    }
+    
+    func fold() {
+        print("\(name) is folding")
+    }
+    
+    func call() {
+        print("\(name) is calling")
+    }
+}
 
-let tennisPlayer = TennisPlayer(name: "Serjo", lastName: "Will", gender: "Male", height: 5.9, uniform: "18", nationality: "Malasia", age: 28)
+class ChessPlayer: Athlete {
 
-let basketball = Equipment(name: "Basketball")
-let football = Equipment(name: "Football")
-let tennisBall = Equipment(name: "Tennis Ball")
+    
+    func movePiece() {
+        print("\(name) is moving ")
+    }
+    
+    func check() {
+        print("\(name) has check")
+    }
+    
+    func checkmate() {
+        print("\(name) has checkmated ")
+    }
+}
 
-let game = Game()
 
-game.startGame(team: [basketballPlayer, footballPlayer, tennisPlayer], with: basketball)
+let basketballPlayer = Athlete(name: "Mixa", lastName: "Jordan", gender: "Male", height: 6.7, uniform: "22", nationality: "USA", age: 30)
+let footballPlayer = Athlete(name: "Leon", lastName: "Messi", gender: "Male", height: 5.4, uniform: "10", nationality: "Argentina", age: 34)
+let tennisPlayer = Athlete(name: "Serjo", lastName: "Will", gender: "Male", height: 5.9, uniform: "18", nationality: "Malaysia", age: 28)
+
+// Create teams
+let brooklynNets = Team()
+brooklynNets.addAthlete(basketballPlayer)
+
+let footballTeam = Team()
+footballTeam.addAthlete(footballPlayer)
+
+let tennisTeam = Team()
+tennisTeam.addAthlete(tennisPlayer)
+
+
+let basketballEquipment = Equipment(name: "Basketball")
+let footballEquipment = Equipment(name: "Football")
+let tennisBallEquipment = Equipment(name: "Tennis Ball")
+let fencingEquipment = Equipment(name: "Fencing Sword")
+let pokerEquipment = Equipment(name: "Poker Cards")
+let chessEquipment = Equipment(name: "Chess Board")
+
+
+let basketballGame = Sport(team: brooklynNets, equipment: .ball)
+let footballGame = Sport(team: footballTeam, equipment: .sword)
+let tennisGame = Sport(team: tennisTeam, equipment: .racket)
+let fencingGame = Sport(team: Team(), equipment: .fencing)
+let pokerGame = Sport(team: Team(), equipment: .poker)
+let chessGame = Sport(team: Team(), equipment: .chess)
+
+
+basketballGame.startGame()
+footballGame.startGame()
+tennisGame.startGame()
+fencingGame.startGame()
+pokerGame.startGame()
+chessGame.startGame()

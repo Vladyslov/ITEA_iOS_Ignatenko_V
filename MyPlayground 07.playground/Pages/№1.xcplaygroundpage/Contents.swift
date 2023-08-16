@@ -4,119 +4,77 @@
 ////Атрибути: name, feetCount, wingsCount,
 ////Зовнішні функції: getMilk, getEgg
 //
-
+// розграничение між савцями і птицями
 class Animal {
-    private var name: String
-    private var feetCount: Int
+    var name: String
     
-    init(name: String, feetCount: Int) {
+    func song() {
+        print("Song on")
+    }
+    init(name: String) {
         self.name = name
+    }
+}
+
+
+class Mammals: Animal {
+    var feetCount: Int
+    init(name:String, feetCount: Int) {
         self.feetCount = feetCount
-    }
-    
-    func voice() {
-        
-    }
-    
-    func performActivity() {
-        
-    }
-    
-    func getName() -> String {
-        return name
-    }
-    
-    func getFeetCount() -> Int {
-        return feetCount
+        super.init(name: name)
     }
 }
 
-class Cat: Animal {
-    override func voice() {
-        print("\(getName()) says Мяу")
-    }
+class Bird: Animal{
+    let wingsCount: Int
     
-    override func performActivity() {
-     
-    }
-}
-
-class Dog: Animal {
-    override func voice() {
-        print("\(getName()) says Gav")
-    }
-    
-    override func performActivity() {
- 
-    }
-}
-
-class Parrot: Animal {
-    private var wingsCount: Int
-    
-    init(name: String, feetCount: Int, wingsCount: Int) {
+    init(name: String, wingsCount: Int) {
         self.wingsCount = wingsCount
-        super.init(name: name, feetCount: feetCount)
-    }
-    
-    override func voice() {
-        print("\(getName()) says Kraaa")
-    }
-    
-    override func performActivity() {
-        fly()
-    }
-    
-    private func fly() {
-        print("\(getName()) is flying")
+        super.init(name: name)
     }
 }
 
-class Rooster: Animal {
-    override func voice() {
-        print("\(getName()) says cokco-cokco")
-    }
-    
-    override func performActivity() {
-      
+class Cat: Mammals {
+    override func song() {
+        super.song()
+        print("\(self.name) Maaaw")
     }
 }
 
-class Cow: Animal {
-    override func voice() {
-        print("\(getName()) says Mooo")
-    }
-    
-    override func performActivity() {
-        getMilk()
-    }
-    
-    private func getMilk() {
-        print("\(getName()) is giving milk")
+class Dog: Mammals {
+    override func song() {
+        super.song()
+        print("\(self.name) Gavv")
     }
 }
 
-class Farm {
-    var animals: [Animal]
-    
-    init(animals: [Animal]) {
-        self.animals = animals
-    }
-    
-    func performFarmActivities() {
-        for animal in animals {
-            animal.voice()
-            animal.performActivity()
-            print("=====")
-        }
+class Cow: Mammals {
+    override func song() {
+        super.song()
+        print("\(self.name) Myyy")
     }
 }
 
-let cat = Cat(name: "Koks", feetCount: 4)
-let dog = Dog(name: "Devil", feetCount: 4)
-let parrot = Parrot(name: "Popka", feetCount: 2, wingsCount: 2)
-let rooster = Rooster(name: "Colan", feetCount: 2)
-let cow = Cow(name: "Moto-Moto", feetCount: 4)
+class Parrot: Bird {
+    override func song() {
+        super.song()
+        print("\(self.name) Araaa")
+    }
+}
 
-let farm = Farm(animals: [cat, dog, parrot, rooster, cow])
-farm.performFarmActivities()
+class Rooster: Bird {
+    override func song() {
+        super.song()
+        print("\(self.name) Chika-chika")
+    }
+}
+
+func getEgg(_ animal: Animal) {
+    guard let animal = animal as? Bird else {return}
+    print("\(animal.name) i can give Agg")
+}
+
+func getMilk(_ animal: Animal) {
+    guard let animal = animal as? Mammals else {return}
+    print("\(animal.name) i can give Milk")
+}
